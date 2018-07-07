@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="../public/images/logo.png"/>
+        <title>NYT news search</title>
+
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic,700' >
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../public/css/style.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+
+
+    </head>
+
+    <body>
+        <!-- Header-->
+        <div class="container jumbotron mb-0">
+            <div class="display-3 text-center"><a href="https://www.nytimes.com/">📰 NYT Article Search</a></div>
+            <div class="h2 text-center">Search for and annotate articles of interest!</div>
+        </div>
+
+        <!--Search-->
+        <div class="container border p-3">
+            <p class="text-center display-4">Search</p>
+            <form autoComplete="off" onSubmit={this.handleSubmit}>
+                <div class="form-group">
+                    <label for="search_term">Search Term</label>
+                    <input type="text" 
+                        value={this.state.search_term}
+                        id="search_term"
+                        class="form-control form-control-lg col-12"
+                        onChange={this.handleChange}
+                        required
+                    />
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label For="start_year">Start Year</label>
+                        <input
+                            type="number"
+                            value={this.state.begin_date || ''}
+                            id="begin_date"
+                            class="form-control "
+                            onChange={this.handleChange}
+                        />
+                </div>
+
+                <div class="form-group col-6">
+                        <label for="end_year">End Year</label>
+                        <input
+                            type="number"
+                            value={this.state.end_date || ''}
+                            id="end_date"
+                            class="form-control "
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg offset-11" type="submit" name="action">Search</button>
+            </form>
+        </div>
+
+        <!-- Search results-->
+        <div class="container border p-3">
+            <p class="text-center display-4">Result</p>
+            <div class="row justify-content-around">
+                <div class="card mx-1 my-2" style="width: 16rem;">
+                        <img class="card-img-top" src="https://static01.nyt.com/images/2018/07/01/opinion/01koosWeb/merlin_140518179_f4b1306d-4303-41c0-8879-97a2ce0df03f-articleLarge.jpg" alt="Card image cap">
+                        <!-- https://static01.nyt.com/ + response.doc[i].multimedia[0].url-->
+                        <div class="card-body">
+                            <a href="https://www.nytimes.com/2018/07/01/opinion/south-korea-racism.html">
+                            <!-- response.doc[i].web_url -->
+                                <p class= "card-text article_date">2018-02-02</p>
+                                <!-- response.doc[i].pub_date.substring(0,10)-->
+                                <p class= "card-text h4 article_title">South Korea’s Enduring Racism</p>
+                                <!-- response.doc[i].headline.main-->
+                                <p class= "card-text article_brief">The outrage triggered by the arrival of a small number of Yemen refugees in the country shows the depth of xenophobia.</p>
+                             </a> 
+                        </div>
+                        <button class="btn btn-primary" type="submit" onClick={this.handleClick}>Save article</button>
+                </div>
+
+                <div class="card mx-1 my-2" style="width: 16rem;">
+                        <img class="card-img-top" src="https://static01.nyt.com/images/2018/07/01/opinion/01koosWeb/merlin_140518179_f4b1306d-4303-41c0-8879-97a2ce0df03f-articleLarge.jpg" alt="Card image cap">
+                        <!-- https://static01.nyt.com/ + response.doc[i].multimedia[0].url-->
+                        <div class="card-body">
+                            <a href="https://www.nytimes.com/2018/07/01/opinion/south-korea-racism.html">
+                            <!-- response.doc[i].web_url -->
+                                <p class= "card-text article_date">2018-02-02</p>
+                                <!-- response.doc[i].pub_date.substring(0,10)-->
+                                <p class= "card-text h4 article_title">South Korea’s Enduring Racism</p>
+                                <!-- response.doc[i].headline.main-->
+                                <p class= "card-text article_brief">The outrage triggered by the arrival of a small number of Yemen refugees in the country shows the depth of xenophobia.</p>
+                             </a> 
+                        </div>
+                        <button class="btn btn-primary" type="submit" onClick={this.handleClick}>Save article</button>
+                </div>
+
+                <div class="card mx-1 my-2" style="width: 16rem;">
+                        <img class="card-img-top" src="https://static01.nyt.com/images/2018/07/01/opinion/01koosWeb/merlin_140518179_f4b1306d-4303-41c0-8879-97a2ce0df03f-articleLarge.jpg" alt="Card image cap">
+                        <!-- https://static01.nyt.com/ + response.doc[i].multimedia[0].url-->
+                        <div class="card-body">
+                            <a href="https://www.nytimes.com/2018/07/01/opinion/south-korea-racism.html">
+                            <!-- response.doc[i].web_url -->
+                                <p class= "card-text article_date">2018-02-02</p>
+                                <!-- response.doc[i].pub_date.substring(0,10)-->
+                                <p class= "card-text h4 article_title">South Korea’s Enduring Racism</p>
+                                <!-- response.doc[i].headline.main-->
+                                <p class= "card-text article_brief">The outrage triggered by the arrival of a small number of Yemen refugees in the country shows the depth of xenophobia.</p>
+                             </a> 
+                        </div>
+                        <button class="btn btn-primary" type="submit" onClick={this.handleClick}>Save article</button>
+                </div>
+
+                <div class="card mx-1 my-2" style="width: 16rem;">
+                        <img class="card-img-top" src="https://static01.nyt.com/images/2018/07/01/opinion/01koosWeb/merlin_140518179_f4b1306d-4303-41c0-8879-97a2ce0df03f-articleLarge.jpg" alt="Card image cap">
+                        <!-- https://static01.nyt.com/ + response.doc[i].multimedia[0].url-->
+                        <div class="card-body">
+                            <a href="https://www.nytimes.com/2018/07/01/opinion/south-korea-racism.html">
+                            <!-- response.doc[i].web_url -->
+                                <p class= "card-text article_date">2018-02-02</p>
+                                <!-- response.doc[i].pub_date.substring(0,10)-->
+                                <p class= "card-text h4 article_title">South Korea’s Enduring Racism</p>
+                                <!-- response.doc[i].headline.main-->
+                                <p class= "card-text article_brief">The outrage triggered by the arrival of a small number of Yemen refugees in the country shows the depth of xenophobia.</p>
+                             </a> 
+                        </div>
+                        <button class="btn btn-primary" type="submit" onClick={this.handleClick}>Save article</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Saved articles-->
+        <div class="container border p-3">
+            <p class="text-center display-4">Saved articles</p>
+            <ul class="list-group">
+                <li class="h4 list-group-item d-flex justify-content-between"><a href="#" target="_blank">first item</a>
+                    <button class="btn btn-danger btn-sm" type="submit" onClick={this.handleClick}>Delete</button>
+                </li>
+
+                <li class="h4 list-group-item d-flex justify-content-between"><a href="#" target="_blank">second item</a>
+                    <button class="btn btn-danger btn-sm" type="submit" onClick={this.handleClick}>Delete</button>
+                </li>
+
+                <li class="h4 list-group-item d-flex justify-content-between"><a href="#" target="_blank">third item</a>
+                    <button class="btn btn-danger btn-sm" type="submit" onClick={this.handleClick}>Delete</button>
+                </li>
+            </ul>
+
+
+
+              
+            </div>
+        </div>
+
+
+    </body>
+
+</html>

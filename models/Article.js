@@ -1,24 +1,23 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+'use strict';
 
-var ArticleSchema = new Schema({
+const mongoose = require("mongoose"),
+      Schema   = mongoose.Schema;
+
+const ArticleSchema = new Schema({
   title: {
-    type: String
+    type: String,
+    required: true
   },
-  summary: {
-    type: String
+
+  date: {
+    type: Date,
+    required: true
   },
-  pubdate: {
-    type: Date
-  },
-  link: {
-    type: String
-  },
-  saved: {
-    type: Boolean,
-    default: true
+
+  url: {
+    type: String,
+    required: true
   }
 });
 
-var Article = mongoose.model("Article", ArticleSchema);
-module.exports = Article;
+module.exports = mongoose.model("Article", ArticleSchema);

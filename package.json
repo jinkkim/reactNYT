@@ -1,5 +1,5 @@
 {
-  "name": "reactnyt",
+  "name": "project",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,25 +7,28 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jinkkim/reactNYT.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jinkkim/reactNYT/issues"
-  },
-  "homepage": "https://github.com/jinkkim/reactNYT#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongoose": "^5.1.7",
-    "morgan": "^1.9.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-router": "^4.3.1",
-    "yarn": "^1.7.0"
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.2.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^4.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
+    "babel-cli": "^6.18.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "css-loader": "^0.25.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3"
   }
 }

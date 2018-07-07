@@ -1,94 +1,107 @@
-// Include Server Dependencies
+var path = require('path')
 var express = require("express");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
-var mongoose = require("mongoose");
-
-// Require History Schema
-var Article = require("./models/Article");
-
-// Create Instance of Express
 var app = express();
-// Sets an initial port. We'll use this later in our listener
-var PORT = process.env.PORT || 3000;
 
-// Run Morgan for Logging
-app.use(logger("dev"));
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-app.use(express.static("./public"));
+app.use(express.static(process.cwd() + '/public'));
 
-// -------------------------------------------------
-
-// MongoDB Configuration configuration 
-mongoose.connect("mongodb://heroku_ffss01pg:bmmkqvsjvkff6g4d5kq2r3tf7i@ds161029.mlab.com:61029/heroku_ffss01pg");
-// Mongo development
-// mongoose.connect("mongodb://localhost/nytReact");
-var db = mongoose.connection;
-
-db.on("error", function(err) {
-  console.log("Mongoose Error: ", err);
+//mongoDB
+var mongoose = require("mongoose");
+mongoose.Promise = Promise;
+var mongoDBUrl = "mongodb://localhost:27017/nytreact";
+//var mongoDBUrl = -------- heroku --------
+mongoose.connect(mongoDBUrl, function(error)
+	{
+	console.log("Database connected");
 });
 
-db.once("open", function() {
-  console.log("Mongoose connection successful.");
+const Article = require('./models/Article.js');
+
+
+//set handlebars as the view engine
+//var handlebars = require("express-handlebars");
+//app.engine("handlebars", handlebars({
+//    extname: "handlebars",
+//    defaultLayout: "main",
+//    layoutsDir: __dirname + "/views/layout/",
+//    partialsDir: __dirname + "/views/partial/"
+//}));
+//app.set("view engine", "handlebars");
+
+//app.get('/', (req, res) => res.render('index'));
+
+
+//-------------news control----------------------------
+
+app.get('/api/saved', function (req, res) {
+    // Find all articles.
+    Article.find({}, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+
+            // Create array for article data.
+            var resultData = [];
+
+            // For each article, create an object that we will use to render the article.
+            data.forEach(function (article) {
+                resultData.push({
+                    _id:article._id,
+                    title: article.title,
+                    url: article.url,
+                    date: article.date,
+                });
+            });
+            res.send(resultData);
+        }
+    });
 });
 
-// -------------------------------------------------
+// Add doc to saved.
+app.post('/api/saved', function (req) {
+    var body = req.body;
+    var newArticle = {
+        title: body.title,
+        url: body.url,
+        date: body.date,
 
-// Main "/" Route. This will redirect the user to our rendered React application
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/public/index.html");
+    };
+    var query = {url: body.url};
+    Article.findOneAndUpdate(query, newArticle, {upsert: true}, function(err) {
+        if (err) {
+            console.log(err);
+        }
+
+    });
 });
 
-app.get("/api/saved", function(req, res) {
-  res.sendFile(__dirname + "/public/index.html");
+// Remove doc from saved.
+app.delete('/api/saved/:id', function (req) {
+    //console.log(req.params)
+    Article.remove({_id: req.params.id}, function(err) {
+        if (err) {
+            console.log(err);
+        }
+        console.log("article removed!")
+    });
 });
 
-app.post("/api/saved"), function(req, res) {
-  Article.create({
-    title: req.data.response.docs.headline.main,
-    summary: req.data.response.docs.snippet,
-    pubdate: req.data.response.docs.pub_date,
-    link: req.data.response.docs.web_url
-  }, function(err) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      res.redirect("/");
-    }
-  })
-};
+
+// Default route.
+app.use('*', function (req, res) {
+    res.sendFile(__dirname+'/views/index.html');
+});
+
+///----------------------------------------------------------
 
 
-// This is the route we will send POST requests to save each search.
-// app.post("/api", function(req, res) {
-//   console.log("BODY: " + req);
-
-//   // Here we'll save the location based on the JSON input.
-//   // We'll use Date.now() to always get the current date time
-//   Article.create({
-//     title: req.data.response.docs.headline.main,
-//     summary: req.data.response.docs.snippet,
-//     pubdate: req.data.response.docs.pub_date,
-//     link: req.data.response.docs.web_url
-//   }, function(err) {
-//     if (err) {
-//       console.log(err);
-//     }
-//     else {
-//       res.send("Saved Search");
-//     }
-//   });
-// });
-
-// -------------------------------------------------
-
-// Listener
-app.listen(PORT, function() {
-  console.log("App listening on PORT: " + PORT);
+//Listening
+var PORT = process.env.PORT || 3000;
+app.listen(PORT, function(){
+    console.log("listening on " + PORT);
 });
